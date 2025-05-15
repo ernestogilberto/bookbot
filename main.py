@@ -1,7 +1,19 @@
+import sys
+from stats import get_num_words
+
+
+
 def main():
-    with open("./books/frankenstein.txt") as f:
+
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    path_to_book = sys.argv[1]
+
+    with open(path_to_book) as f:
         file_contents = f.read()
-        word_count = count_words(file_contents)
+        word_count = get_num_words(file_contents)
 
 
     # print(file_contents)
@@ -11,9 +23,6 @@ def main():
     # print(unique_characters)
 
     print_report(word_count, unique_characters)
-
-def count_words(file_contents):
-    return len(file_contents.split())
 
 def count_unique_characters(file_contents):
     counter = {}
@@ -25,14 +34,15 @@ def count_unique_characters(file_contents):
     return counter
 
 def print_report(word_count, unique_characters):
-    print("--- Begin report of books/frankenstein.txt ---")
-    message1 = {f"{word_count} words found in the document"}
+    path_to_book = sys.argv[1]
+    print(f"--- Begin report of {path_to_book} ---")
+    message1 = f"Found {word_count} total words"
     print(message1)
     print("Unique characters found in the document")
 
     for character, count in unique_characters.items():
         if character.isalpha():
-            print(f"The '{character}' was found {count} times")
+            print(f"{character}: {count}")
     print("--- End of report ---")
 
 if __name__ == "__main__":
